@@ -29,7 +29,7 @@ int getMenuChoice() {
     return choice;
 }
 
-// isema nereikalingus simbolius is zodzio
+// isima nereikalingus simbolius is zodzio
 inline std::string cleanWord(const std::string& word) {
     std::string cleaned;
     // palieka tik alfanumerinius simbolius, apostrofus ir bruksnelius
