@@ -9,26 +9,28 @@
 #include <set>
 #include <regex>
 #include <vector>
+#include <iostream>
+#include <stdexcept>
 
 // menu valdymas
 int getMenuChoice() {
     int choice;
     while (true) {
-        cout << MENU_TEXT;
-        string input;
-        cin >> input;
+        std::cout << MENU_TEXT;
+        std::string input;
+        std::cin >> input;
         try {
             choice = stoi(input);
             if (choice >= 0 && choice <= 2) break;
         } catch (const std::invalid_argument&) {
         }
-        cout << INVALID_CHOICE;
+        std::cout << INVALID_CHOICE;
     }
     return choice;
 }
 
 // isema nereikalingus simbolius is zodzio
-inline std::string clean_word(const std::string& word) {
+inline std::string cleanWord(const std::string& word) {
     std::string cleaned;
     // palieka tik alfanumerinius simbolius, apostrofus ir bruksnelius
     for (unsigned char ch : word) {
@@ -48,7 +50,7 @@ inline void countWords(const std::string& source_file, const std::string& result
     std::string token;
     
     while (input >> token) {
-        std::string processed = clean_word(token);
+        std::string processed = cleanWord(token);
         if (!processed.empty()) ++word_counter[processed];
     }
 
@@ -76,7 +78,7 @@ inline void generate(const std::string& input_file, const std::string& output_fi
         std::istringstream line_stream(current_line);
         std::string token;
         while (line_stream >> token) {
-            std::string processed = clean_word(token);
+            std::string processed = cleanWord(token);
             if (!processed.empty()) word_line_map[processed].insert(line_counter);
         }
         line_counter++;
@@ -92,7 +94,7 @@ inline void generate(const std::string& input_file, const std::string& output_fi
 }
 
 // nuskaito tdl sarasa
-inline std::set<std::string> load_tld_list(const std::string& filename) {
+inline std::set<std::string> TLD(const std::string& filename) {
     std::set<std::string> tld_set;
     std::ifstream tld_file(filename);
     if (!tld_file) throw std::runtime_error(TLD_LIST_FILE_NOT_FOUND);
@@ -109,7 +111,7 @@ inline std::set<std::string> load_tld_list(const std::string& filename) {
 }
 
 // IESKO URL ADRESU
-inline void find_urls(const std::string& input_file, 
+inline void findURLS(const std::string& input_file, 
                     const std::string& output_file,
                     const std::set<std::string>& tld_list) {
     std::ifstream in_stream(input_file);
