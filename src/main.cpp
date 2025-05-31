@@ -1,57 +1,62 @@
-#include "countWords.h"
-#include "crossReference.h"
-#include "findURL.h"
+#include "count_words.h"
+#include "cross_references.h"
+#include "extract_urls.h"
 #include <iostream>
 #include <exception>
+#ifdef _WIN32
+#include <windows.h>
+#endif
 
 int main() {
-    int pasirinkimas;
-    string ivestis = "tekstas.txt";
-    string isvestis;
+    #ifdef _WIN32
+    SetConsoleOutputCP(65001); 
+    #endif
+
+    int choice;
+    const std::string input_file = "text.txt";
+    std::string output_file;
 
     do {
-        std::cout << "1. Suskaičiuoti žodžių dažnius\n";
-        std::cout << "2. Sugeneruoti kryžminę nuorodų lentelę\n";
-        std::cout << "3. Ieskoti URL\n";
-        std::cout << "0. Išeiti\n";
-        std::cout << "Pasirinkite: ";
-        std::cin >> pasirinkimas;
+        std::cout << "1. Suskaičiuoti skaičių dažnuma tekste\n";
+        std::cout << "2. Kurti cross-reference lentelę\n";
+        std::cout << "3. Ieškoti URL adresų\n";
+        std::cout << "0. Užbaigti programą\n";
+        std::cin >> choice;
 
         try {
-            switch (pasirinkimas) {
+            switch (choice) {
                 case 1:
-                    isvestis = "dazniai.txt";
-                    skaiciuoti_zodzius(ivestis, isvestis);
-                    std::cout << "Žodžių skaičiavimas baigtas. Rezultatai faile " << isvestis << "\n";
+                    output_file = "..files/frequencies.txt";
+                    countWords(input_file, output_file);
+                    std::cout << "Duomenys išsaugoti faile: "<< output_file << "\n";
                     break;
-
+                    
                 case 2:
-                    isvestis = "kryzmine.txt";
-                    generuoti_kryzmine_nuoroda(ivestis, isvestis);
-                    std::cout << "Kryžminė lentelė sugeneruota. Rezultatai faile " << isvestis << "\n";
+                    output_file = "../files/references.txt";
+                    generate(input_file, output_file);
+                    std::cout << "Duomenys išsaugoti faile: " << output_file << "\n";
                     break;
-
+                    
                 case 3: {
-                    std::set<string> tldai = ikrauti_tld_sarasa("tlds.txt");
-                    rasti_url_adresus("tekstas.txt", "urlai.txt", tldai);
-                    std::cout << " URL'ai rasti. Rezultatai faile urlai.txt\n";
+                    std::set<std::string> tld_list = loadDomains("..files/domain.txt");
+                    extractUrls("..files/text.txt", "urls.txt", tld_list);
+                    std::cout << "Duomenys išsaugoti faile: files/urls.txt\n";
                     break;
-                    }
-
+                }
+                    
                 case 0:
-                    std::cout << "Baigta.\n";
+                    std::cout << "Programa užbaigta.\n";
                     break;
-
+                    
                 default:
-                    std::cout << "Neteisingas pasirinkimas, bandykite dar kartą.\n";
-                    break;
+                    std::cout << "Klaida: netinkama įvestis.\n";
             }
         }
-        catch (const std::exception& klaida) {
-            std::cerr << "Klaida: " << klaida.what() << std::endl;
+        catch (const std::exception& e) {
+            std::cerr << "Klaida: " << e.what() << std::endl;
         }
-
-    } while (pasirinkimas != 0);
+        
+    } while (choice != 0);
 
     return 0;
 }
