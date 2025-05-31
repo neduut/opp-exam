@@ -11,9 +11,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 include_directories(include)
 
 set(LIB_SOURCES
-    src/count_words.cpp
-    src/cross_references.cpp
-    src/extract_urls.cpp
+    src/functions.cpp
 )
 
 add_library(Egzaminas_lib STATIC ${LIB_SOURCES})
