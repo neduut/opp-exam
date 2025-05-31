@@ -12,8 +12,8 @@ include_directories(include)
 
 set(LIB_SOURCES
     src/count_words.cpp
-    src/exxtract_urls.cpp
-    src/generate_references.cpp
+    src/cross_references.cpp
+    src/extract_urls.cpp
 )
 
 add_library(Egzaminas_lib STATIC ${LIB_SOURCES})

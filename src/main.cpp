@@ -15,7 +15,6 @@ int main() {
     int choice;
     const std::string input_file = "text.txt";
     std::string output_file;
-
     do {
         std::cout << "1. Suskaičiuoti skaičių dažnuma tekste\n";
         std::cout << "2. Kurti cross-reference lentelę\n";
@@ -38,9 +37,10 @@ int main() {
                     break;
                     
                 case 3: {
-                    std::set<std::string> tld_list = loadDomains("..files/domain.txt");
-                    extractUrls("..files/text.txt", "urls.txt", tld_list);
-                    std::cout << "Duomenys išsaugoti faile: files/urls.txt\n";
+                    std::set<std::string> tld_list = load_tld_list("../files/domain.txt");
+                    output_file = "../files/urls.txt";
+                    find_urls(input_file, output_file, tld_list);
+                    std::cout << "Duomenys išsaugoti faile: ..files/urls.txt\n";
                     break;
                 }
                     
@@ -49,7 +49,7 @@ int main() {
                     break;
                     
                 default:
-                    std::cout << "Klaida: netinkama įvestis.\n";
+                    std::cout << "Klaida: netinkama įvestis!\n";
             }
         }
         catch (const std::exception& e) {

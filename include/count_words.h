@@ -1,7 +1,6 @@
 #pragma once
 
 #include <string>
-using std::string;
+#include <map>
 
-void countWords(const string& ivestis, const string& isvestis);
-string remove(const string& zodis);
+void countWords(const std::string& source_file, const std::string& result_file);
