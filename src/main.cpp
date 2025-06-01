@@ -16,22 +16,22 @@ int main() {
         choice = getMenuChoice();
         try {
             switch (choice) {
-                case 1:
+                case 1: {
                     std::string output_file = "..files/frequencies.txt";
                     countWords(input_file, output_file);
                     std::cout << RESULTS_SAVED_SUCCESSFULLY << output_file << "\n";
-                    break;
-                    
-                case 2:
+                    break; 
+                }
+                case 2: {
                     std::string output_file = "../files/references.txt";
                     generate(input_file, output_file);
                     std::cout << RESULTS_SAVED_SUCCESSFULLY << output_file << "\n";
                     break;
-                    
+                }
                 case 3: {
-                    std::set<std::string> tld_list = load_tld_list("../files/domain.txt");
+                    std::set<std::string> tld_list = TLD("../files/domain.txt");
                     std::string output_file = "../files/urls.txt";
-                    find_urls(input_file, output_file, tld_list);
+                    findURLS(input_file, output_file, tld_list);
                     std::cout << RESULTS_SAVED_SUCCESSFULLY << "..files/urls.txt\n";
                     break;
                 }

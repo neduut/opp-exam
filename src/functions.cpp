@@ -21,7 +21,7 @@ int getMenuChoice() {
         std::cin >> input;
         try {
             choice = stoi(input);
-            if (choice >= 0 && choice <= 2) break;
+            if (choice >= 0 && choice <= 3) break;
         } catch (const std::invalid_argument&) {
         }
         std::cout << INVALID_CHOICE;
@@ -30,7 +30,7 @@ int getMenuChoice() {
 }
 
 // isima nereikalingus simbolius is zodzio
-inline std::string cleanWord(const std::string& word) {
+std::string cleanWord(const std::string& word) {
     std::string cleaned;
     // palieka tik alfanumerinius simbolius, apostrofus ir bruksnelius
     for (unsigned char ch : word) {
@@ -42,9 +42,9 @@ inline std::string cleanWord(const std::string& word) {
 }
 
 // ZODZIU DAZUMO SKAICIAVIMAS
-inline void countWords(const std::string& source_file, const std::string& result_file) {
+void countWords(const std::string& source_file, const std::string& result_file) {
     std::ifstream input(source_file);
-    if (!input) throw std::runtime_error();
+    if (!input) throw std::runtime_error(FILE_NOT_FOUND);
 
     std::map<std::string, int> word_counter;
     std::string token;
@@ -63,7 +63,7 @@ inline void countWords(const std::string& source_file, const std::string& result
 }
 
 // CROSS-REFERENCE LENTELES GENERAVIMAS
-inline void generate(const std::string& input_file, const std::string& output_file) {
+void generate(const std::string& input_file, const std::string& output_file) {
     std::ifstream in_stream(input_file);
     if (!in_stream) throw std::runtime_error(FILE_NOT_FOUND);
 
@@ -94,7 +94,7 @@ inline void generate(const std::string& input_file, const std::string& output_fi
 }
 
 // nuskaito tdl sarasa
-inline std::set<std::string> TLD(const std::string& filename) {
+std::set<std::string> TLD(const std::string& filename) {
     std::set<std::string> tld_set;
     std::ifstream tld_file(filename);
     if (!tld_file) throw std::runtime_error(TLD_LIST_FILE_NOT_FOUND);
@@ -111,7 +111,7 @@ inline std::set<std::string> TLD(const std::string& filename) {
 }
 
 // IESKO URL ADRESU
-inline void findURLS(const std::string& input_file, 
+void findURLS(const std::string& input_file, 
                     const std::string& output_file,
                     const std::set<std::string>& tld_list) {
     std::ifstream in_stream(input_file);
